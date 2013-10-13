@@ -34,27 +34,23 @@ $application    = new Application\Main($assignmentData);
 /**
  * The following method call will return all people with a last name of "Doe".
  *
- * @todo implementation
  */
-$application->yourMethodCall();
+$application->showPeople();
 
 /**
  * The following method call will return all car models containing a "5"
  *
- * @todo implementation
  */
-$application->yourMethodCall();
+$application->showCars();
 
 /**
  * The following method call will return all phone numbers ending with "15"
  *
- * @todo implementation
  */
-$application->yourMethodCall();
+$application->showPhoneNumbers();
 
 /**
  * The following method call will return all numbers containing greater than, or equal to "4000"
  *
- * @todo implementation
  */
-$application->yourMethodCall();
+$application->showNumbers();
