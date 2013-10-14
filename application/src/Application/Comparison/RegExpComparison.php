@@ -1,5 +1,6 @@
 <?php
 namespace Application\Comparison;
+
 use Iterator;
 
 /**
@@ -8,17 +9,13 @@ use Iterator;
 class RegExpComparison implements ComparisonInterface
 {
     /**
-     * @param string $left Left side of the comparison expression. It is a regexp.
+     * @param string $left  Left side of the comparison expression. It is a regexp.
      * @param string $right Right side of the comparison expression
-     * @return bool|mixed
+     *
+     * @return bool
      */
     public function process($left, $right)
     {
-        if (preg_match($left, $right)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (bool) preg_match($left, $right);
     }
 }
