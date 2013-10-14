@@ -3,8 +3,9 @@ namespace Application\Filter;
 
 use Application\Comparison\ComparisonInterface;
 use Iterator;
+use FilterIterator;
 
-class AssociativeArrayFilter extends \FilterIterator
+class AssociativeArrayFilter extends FilterIterator
 {
     /**
      * @var string key Key of the associative array
@@ -15,6 +16,7 @@ class AssociativeArrayFilter extends \FilterIterator
      * @var mixed left  Left side of the comparison expression
      */
     protected $left;
+
     /**
      * @var \Application\Comparison\ComparisonInterface Comparison object
      */
@@ -29,12 +31,12 @@ class AssociativeArrayFilter extends \FilterIterator
     public function __construct(Iterator $iterator , $key, ComparisonInterface $comparison, $left)
     {
         parent::__construct($iterator);
-        $this->key = $key;
-        $this->left = $left;
+        
+        $this->key        = $key;
+        $this->left       = $left;
         $this->comparison = $comparison;
-
     }
-
+    
     /**
      * Filter method of FilterIterator
      *
@@ -44,18 +46,20 @@ class AssociativeArrayFilter extends \FilterIterator
     public function accept()
     {
         $array = $this->getInnerIterator()->current();
-        $key = $this->key;
+        $key   = $this->key;
 
-        if (!isset($array[$key])) {
-            throw new \RuntimeException(sprintf('%s key does not exist', $key));
+        if (empty($array[$key])) {
+            
+            // Usually you'd have exceptions _per_ namespace to make tracing back to the problem easier.
+            throw new \RuntimeException(sprintf(
+                '%s key does not exist', 
+                $key
+            ));
         }
 
-        $left = $this->left;
+        $left  = $this->left;
         $right = $array[$key];
-        if ($this->comparison->process($left, $right)) {
-            return true;
-        }
 
-        return false;
+        return (bool) $this->comparison->process($left, $right));
     }
 }
