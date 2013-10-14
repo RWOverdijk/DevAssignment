@@ -3,8 +3,9 @@ namespace Application\Filter;
 
 use Application\Comparison\ComparisonInterface;
 use Iterator;
+use FilterIterator;
 
-class ComparisonFilter extends \FilterIterator
+class ComparisonFilter extends FilterIterator
 {
     /**
      * @var mixed left Left side of the comparison expression
@@ -17,14 +18,15 @@ class ComparisonFilter extends \FilterIterator
     protected $comparison;
 
     /**
-     * @param Iterator $iterator
+     * @param Iterator            $iterator
      * @param ComparisonInterface $comparison Comparison object
-     * @param mixed $left Left side of the comparison expression
+     * @param mixed               $left       Left side of the comparison expression
      */
     public function __construct(Iterator $iterator , ComparisonInterface $comparison, $left)
     {
         parent::__construct($iterator);
-        $this->left = $left;
+
+        $this->left       = $left;
         $this->comparison = $comparison;
     }
 
@@ -35,12 +37,9 @@ class ComparisonFilter extends \FilterIterator
      */
     public function accept()
     {
-        $left = $this->left;
+        $left  = $this->left;
         $right = $this->getInnerIterator()->current();
 
-        if ($this->comparison->process($left, $right)) {
-            return true;
-        }
-        return false;
+        return (bool) $this->comparison->process($left, $right);
     }
 }
